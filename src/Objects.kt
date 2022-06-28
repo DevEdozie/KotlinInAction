@@ -1,5 +1,5 @@
 import java.io.File
-
+/*
 object Payroll {
     val allEmployees = arrayListOf<Person>()
 
@@ -36,7 +36,19 @@ data class Person(val name: String) {
     }
 }
 
+class A{
+    companion object {
+        fun bar(){
+            println("Companion object called")
+        }
+    }
+}
+
 fun main(args: Array<String>) {
+    A.bar()
+
+*/
+
     /*
     Payroll.allEmployees.add(Person("Michael"))
     Payroll.allEmployees.add(Person("Judith"))
@@ -47,6 +59,7 @@ fun main(args: Array<String>) {
     val persons = listOf(Person("Bob"),Person("Alice"))
     println(persons.sortedWith(Person.NameComparator))
     */
+    /*
     var name ="Bruno"
     var age = 20
     var gender = "Male"
@@ -56,4 +69,7 @@ fun main(args: Array<String>) {
     Animal.gender = gender
     Animal.type = type
     Animal.printDetails()
+
 }
+
+   */

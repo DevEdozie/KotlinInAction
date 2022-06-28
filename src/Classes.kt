@@ -1,3 +1,6 @@
+import java.beans.PersistenceDelegate
+import java.lang.management.ManagementFactory
+
 /*
 class AUser(val nickname: String, val isSubscribed: Boolean = true) {
     val name = nickname
@@ -67,11 +70,77 @@ class MyButton : View {
 }
  */
 
-/*
-interface User {
-    val nickname: String
+
+class User private constructor(val nickname: String) {
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val subcribingUser = User.newSubscribingUser("bob@gmail.com")
+            val facebookUser = User.newFacebookUser(1)
+            println(subcribingUser.nickname)
+            println(facebookUser.nickname)
+
+        }
+
+
+        fun newSubscribingUser(email: String) =
+            User(email.substringBefore("@"))
+
+        fun newFacebookUser(accountId: Int) =
+            User(getFacebookName(accountId))
+
+
+        fun getFacebookName(accountId: Int): String {
+            var faceBookUsers = arrayOf("Michael", "Chiedozie", "Goat")
+            var user = faceBookUsers[accountId]
+            return user
+        }
+
+    }
+
 }
 
+interface JSONFactory<T>{
+    fun fromJSON(jsonText: String):T
+}
+
+class Person(val name:String){
+    companion object Loader:JSONFactory<Person>{
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var person1 = Person.Loader.fromJSON("{name: 'Dmitry'}")
+            println(person1.name)
+            var person2 = Person.fromJSON("{name: 'Brent'}")
+            println(person2.name)
+        }
+
+
+        override fun fromJSON(jsonText:String):Person = Person(jsonText)
+    }
+}
+
+/*
+val nickname: String
+
+constructor(email:String){
+    nickname = email.substringBefore("@")
+}
+
+constructor(facebookAccountId:Int){
+    nickname = getFacebookName(facebookAccountId)
+}
+
+
+fun getFacebookName(accountId: Int): String {
+    var faceBookUsers = arrayOf("Michael", "Chisom", "Goat")
+    var user = faceBookUsers[accountId]
+    return user
+}
+*/
+
+
+/*
 // overrides the property in the primary constructor
 class PrivateUser(override val nickname: String) : User
 
@@ -86,14 +155,10 @@ class SubscribingUser(val email: String) : User {
 class FaceBookUser(val accountId: Int) : User {
     override val nickname = getFacebookName(accountId)
 
-    fun getFacebookName(accountId: Int): String {
-        var faceBookUsers = arrayOf("Michael", "Chisom", "Goat")
-        var user = faceBookUsers[accountId]
-        return user
-    }
+
 
 }
-*/
+
 class User(val name: String) {
     var address: String = "unspecified"
         set(value: String) {
@@ -164,12 +229,11 @@ println(lengthCounter.counter)
 val user = User("Alice")
 user.address = "Elsenheimerstrasse 47, 80687 Muenchen"
 println(user.address)
-*/
-/*
+
 println(PrivateUser("test@kotlinlang.org").nickname)
 println(SubscribingUser("test@kotlinlang.org").nickname)
 println(FaceBookUser(2).nickname)
-*/
+
     val cset = CountingSet<Int>()
     cset.addAll(listOf(1, 1, 2))
     println("${cset.objectsAdded} objects were added, ${cset.size} remain")
@@ -196,6 +260,4 @@ class CountingSet<T>(val innerSet: MutableCollection<T> = HashSet<T>()) :
 }
 
 
-
-
-
+*/
